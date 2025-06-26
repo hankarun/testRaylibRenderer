@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "*.legv8asm": "asm-collection",
+    "raylib.h": "c",
+    "*.glsl": "glsl",
+    "*.vert": "glsl",
+    "*.frag": "glsl",
+    "locale": "cpp",
+    "ratio": "cpp",
+    "random": "c",
+    "raymath.h": "c",
+    "math.h": "c",
+    "__locale": "c",
+    "rlgl.h": "c"
+}
+}
