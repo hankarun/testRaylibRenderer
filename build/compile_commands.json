@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/onursmacbook/Documents/simsoft/raylib-demo/build",
+  "command": "/usr/bin/clang  -isystem /opt/homebrew/include -g -std=gnu11 -arch arm64 -o CMakeFiles/raylib_test.dir/main.c.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c",
+  "file": "/Users/onursmacbook/Documents/simsoft/raylib-demo/main.c",
+  "output": "CMakeFiles/raylib_test.dir/main.c.o"
+}
+]

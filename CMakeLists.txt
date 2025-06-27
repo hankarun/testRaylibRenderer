@@ -33,7 +33,7 @@ if(NOT raylib_FOUND)
   FetchContent_Declare(
     raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
-    GIT_TAG        v4.5.0  # or "master"/"dev" as desired
+    GIT_TAG        v4.5.0
   )
   # disable examples/tests inside raylib
   set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -41,5 +41,14 @@ if(NOT raylib_FOUND)
   FetchContent_MakeAvailable(raylib)
 endif()
 
+# Your executable
 add_executable(${PROJECT_NAME} main.c)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+
+# After each build, copy the entire resources/ tree next to the exe
+add_custom_command(TARGET ${PROJECT_NAME}
+    POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/resources
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources
+)

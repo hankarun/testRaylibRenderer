@@ -74,7 +74,7 @@ int main(void) {
     cam.projection = CAMERA_PERSPECTIVE;
     
     // Load shaders
-    Shader sh = LoadShader("../resources/shaders/default.vs", "../resources/shaders/phong.fs");
+    Shader sh = LoadShader("resources/shaders/default.vs", "resources/shaders/phong.fs");
     int locLightPos = GetShaderLocation(sh, "u_lightPos");
     int locLightCol = GetShaderLocation(sh, "u_lightColor");
     int locLightInt = GetShaderLocation(sh, "u_lightIntensity");
@@ -86,28 +86,28 @@ int main(void) {
     sh.locs[SHADER_LOC_MAP_DIFFUSE] = GetShaderLocation(sh, "diffuseMap");
     sh.locs[SHADER_LOC_MAP_NORMAL] = GetShaderLocation(sh, "normalMap");
 
-    Shader shEmis  = LoadShader("../resources/shaders/default.vs", "../resources/shaders/emissive.fs");
+    Shader shEmis  = LoadShader("resources/shaders/default.vs", "resources/shaders/emissive.fs");
     int locEmis    = GetShaderLocation(shEmis, "u_emissiveColor");
     int locEmisInt = GetShaderLocation(shEmis, "u_emissiveIntensity");
     shEmis.locs[SHADER_LOC_MAP_EMISSION] = GetShaderLocation(shEmis, "emissionMap");
 
-    Shader shSky = LoadShader("../resources/shaders/skybox.vs", "../resources/shaders/skybox.fs");
+    Shader shSky = LoadShader("resources/shaders/skybox.vs", "resources/shaders/skybox.fs");
     int locRotView    = GetShaderLocation(shSky, "rotView");
     int locProjection = GetShaderLocation(shSky, "matProjection");
     shSky.locs[SHADER_LOC_MAP_CUBEMAP] = GetShaderLocation(shSky, "cubemap");
 
-    Shader shHDR = LoadShader(NULL, "../resources/shaders/hdr.fs");
+    Shader shHDR = LoadShader(NULL, "resources/shaders/hdr.fs");
     int locHdrGamma = GetShaderLocation(shHDR, "u_gamma");
     int locHdrExposure = GetShaderLocation(shHDR, "u_exposure");
     shHDR.locs[SHADER_LOC_MAP_DIFFUSE] = GetShaderLocation(shHDR, "hdrBuffer");
 
     // Load cubemap images
-    Image px = LoadImage("../resources/textures/right.jpg");
-    Image nx = LoadImage("../resources/textures/left.jpg"); 
-    Image py = LoadImage("../resources/textures/top.jpg"); 
-    Image ny = LoadImage("../resources/textures/bottom.jpg");
-    Image pz = LoadImage("../resources/textures/front.jpg");
-    Image nz = LoadImage("../resources/textures/back.jpg");
+    Image px = LoadImage("resources/textures/right.jpg");
+    Image nx = LoadImage("resources/textures/left.jpg"); 
+    Image py = LoadImage("resources/textures/top.jpg"); 
+    Image ny = LoadImage("resources/textures/bottom.jpg");
+    Image pz = LoadImage("resources/textures/front.jpg");
+    Image nz = LoadImage("resources/textures/back.jpg");
 
     int fw = px.width;
     int fh = px.height;
@@ -122,11 +122,11 @@ int main(void) {
     ImageDraw(&atlas, nz, (Rectangle) {0*fw, 0*fh, fw, fh}, (Rectangle) {3*fw, 1*fh, fw, fh}, WHITE);
 
     // Load textures and models
-    //Model moonModel = LoadModel("../resources/objects/sponza.glb");
-    //Texture2D moonTex = LoadTexture("../resources/textures/moon.jpg");
-    //Texture2D moonNormalTex = LoadTexture("../resources/textures/moon_normal.jpg");
+    //Model moonModel = LoadModel("resources/objects/sponza.glb");
+    //Texture2D moonTex = LoadTexture("resources/textures/moon.jpg");
+    //Texture2D moonNormalTex = LoadTexture("resources/textures/moon_normal.jpg");
 
-    Model sponzaModel = LoadModel("../resources/objects/sponza.glb");
+    Model sponzaModel = LoadModel("resources/objects/sponza.glb");
     for (int i = 0; i < sponzaModel.materialCount; i++) {
         sponzaModel.materials[i].shader = sh;
         GenTextureMipmaps(&sponzaModel.materials[i].maps[MATERIAL_MAP_DIFFUSE].texture);
@@ -136,10 +136,10 @@ int main(void) {
     //moonModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = moonTex;
     //moonModel.materials[0].maps[MATERIAL_MAP_NORMAL].texture = moonNormalTex;
 
-    Texture2D sunTex = LoadTexture("../resources/textures/sun.jpg");
+    Texture2D sunTex = LoadTexture("resources/textures/sun.jpg");
 
     // Load the sun image for CPU sampling
-    Image sunImg = LoadImage("../resources/textures/sun.jpg");
+    Image sunImg = LoadImage("resources/textures/sun.jpg");
     Color c = GetImageColor(sunImg, sunImg.width / 2, sunImg.height / 2);
     float sunMask = (0.2126f * c.r + 0.7152f * c.g + 0.0722f * c.b) / 255.0f;
     sunMask = pow(sunMask * 1.5f, 0.8f);
