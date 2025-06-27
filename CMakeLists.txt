@@ -1,11 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
 project(raylib_test C)
 
-# Require C11 
+# Require C11
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Allow override of install location
+# Default to Debug build for debug symbols if not specified
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+endif()
+
+# Add debug symbols to compiler and linker flags
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -g")
+
+# Allow override of install location via RAYLIB_ROOT environment variable
 if(DEFINED ENV{RAYLIB_ROOT})
   list(APPEND CMAKE_PREFIX_PATH $ENV{RAYLIB_ROOT})
 endif()
@@ -33,7 +42,7 @@ if(NOT raylib_FOUND)
   FetchContent_Declare(
     raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
-    GIT_TAG        v4.5.0
+    GIT_TAG        master   # use main branch to avoid invalid tag reference
   )
   # disable examples/tests inside raylib
   set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)

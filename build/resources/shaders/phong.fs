@@ -41,11 +41,12 @@ void main() {
     vec3 specularAccum = vec3(0.0);
 
     for (int i = 0; i < MAX_LIGHTS; i++) {
-        vec3 L = normalize(u_lightPos[i] - fragPos);
+        vec3 L = u_lightPos[i] - fragPos;
 
         // inverse‐square attenuation
         float dist = length(L);
-        float att = 1/(dist*dist);
+        float att = 1/max(1e-4f, dist*dist);
+        L = normalize(L);
 
         // ambient
         ambientAccum += u_ambientColor * texColor;
@@ -57,7 +58,7 @@ void main() {
         // specular
         vec3 R = reflect(-L, N);
         float s = pow(max(dot(R, V), 0.0), u_shininess);
-        specularAccum += s * u_specularColor * u_lightColor[i] * u_lightIntensity[i] * att;
+        specularAccum += s * u_specularColor * u_lightColor[i] * u_lightIntensity[i] * d * att;
     }
 
     fragColor = vec4(ambientAccum + diffuseAccum + specularAccum, 1.0);

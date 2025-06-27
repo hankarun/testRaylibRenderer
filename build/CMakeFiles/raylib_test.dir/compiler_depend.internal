@@ -97,7 +97,7 @@ CMakeFiles/raylib_test.dir/main.c.o
  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stdarg.h
  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stdbool.h
  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stdint.h
- /opt/homebrew/include/raylib.h
- /opt/homebrew/include/raymath.h
- /opt/homebrew/include/rlgl.h
+ /opt/homebrew/Cellar/raylib/5.5/include/raylib.h
+ /opt/homebrew/Cellar/raylib/5.5/include/raymath.h
+ /opt/homebrew/Cellar/raylib/5.5/include/rlgl.h
 

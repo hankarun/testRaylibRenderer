@@ -1,0 +1,1 @@
+/usr/bin/cc  -g -g -arch arm64 -arch x86_64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -g CMakeFiles/raylib_test.dir/main.c.o -o raylib_test  _deps/raylib-build/raylib/libraylib.a -framework OpenGL -framework Cocoa -framework IOKit -framework CoreFoundation

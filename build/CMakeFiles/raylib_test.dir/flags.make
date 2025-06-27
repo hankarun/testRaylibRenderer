@@ -4,9 +4,9 @@
 # compile C with /usr/bin/clang
 C_DEFINES = 
 
-C_INCLUDES = -isystem /opt/homebrew/include
+C_INCLUDES = -isystem /opt/homebrew/Cellar/raylib/5.5/include
 
-C_FLAGSarm64 = -g -std=gnu11 -arch arm64
+C_FLAGSarm64 =  -g -g -std=gnu11 -arch arm64 -I/opt/homebrew/Cellar/raylib/5.5/include
 
-C_FLAGS = -g -std=gnu11 -arch arm64
+C_FLAGS =  -g -g -std=gnu11 -arch arm64 -I/opt/homebrew/Cellar/raylib/5.5/include
 

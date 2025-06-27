@@ -95,7 +95,7 @@ raylib_test_EXTERNAL_OBJECTS =
 
 raylib_test: CMakeFiles/raylib_test.dir/main.c.o
 raylib_test: CMakeFiles/raylib_test.dir/build.make
-raylib_test: /opt/homebrew/lib/libraylib.dylib
+raylib_test: /opt/homebrew/Cellar/raylib/5.5/lib/libraylib.dylib
 raylib_test: CMakeFiles/raylib_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable raylib_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/raylib_test.dir/link.txt --verbose=$(VERBOSE)

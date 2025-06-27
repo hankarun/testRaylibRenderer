@@ -7,14 +7,14 @@
 
 #define W 1000
 #define H 650
-#define NUM_ORBITS 1
+#define NUM_ORBITS 8
 
 typedef struct  {
     Vector3 color;
 } Orbit;
 
 Orbit orbits[NUM_ORBITS] = {
-    { {1.0f, 1.0f, 1.0f} }, // red
+    { {1.0f, 0.0f, 0.0f} }, // red
     { {0.0f, 1.0f, 0.0f} }, // green
     { {0.0f, 0.0f, 1.0f} }, // blue
     { {1.0f, 1.0f, 1.0f} }, // white
@@ -25,11 +25,11 @@ Orbit orbits[NUM_ORBITS] = {
 };
 
 Vector3 starts[NUM_ORBITS] = {
-    {-1.0f, 5.0f, 0.0f}, 
-    {0.0f, 1.0f, 0.0f}, 
-    {1.0f, 1.0f, 0.0f}, 
-    {-1.0f, 0.0f, 0.0f}, 
-    {1.0f, 0.0f,  0.0f}, 
+    {6.5f, 0.0f, 0.0f}, 
+    {8.3f, 1.0f, 0.0f}, 
+    {8.1f, 1.0f, 0.0f}, 
+    {7.9f, 0.0f, 0.0f}, 
+    {7.5f, 0.0f,  0.0f}, 
     {-1.0f, -1.0f, 0.0f}, 
     {0.0f, -1.0f, 0.0f}, 
     {1.0f, -1.0f, 0.0f}
@@ -80,7 +80,6 @@ int main(void) {
     int locLightInt = GetShaderLocation(sh, "u_lightIntensity");
     int locEyePos   = GetShaderLocation(sh, "u_eyePos");
     int locAmb      = GetShaderLocation(sh, "u_ambientColor");
-    int locDiff     = GetShaderLocation(sh, "u_diffuseColor");
     int locSpec     = GetShaderLocation(sh, "u_specularColor");
     int locShine    = GetShaderLocation(sh, "u_shininess");
     sh.locs[SHADER_LOC_MAP_DIFFUSE] = GetShaderLocation(sh, "diffuseMap");
@@ -128,15 +127,14 @@ int main(void) {
 
     Model sponzaModel = LoadModel("resources/objects/sponza.glb");
     for (int i = 0; i < sponzaModel.materialCount; i++) {
-        sponzaModel.materials[i].shader = sh;
-        GenTextureMipmaps(&sponzaModel.materials[i].maps[MATERIAL_MAP_DIFFUSE].texture);
+        sponzaModel.materials[i].shader = sh;        
     }
 
     //moonModel.materials[0].shader = sh;
     //moonModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = moonTex;
     //moonModel.materials[0].maps[MATERIAL_MAP_NORMAL].texture = moonNormalTex;
 
-    Texture2D sunTex = LoadTexture("resources/textures/sun.jpg");
+    Texture2D sunTex = LoadTexture("resources/textures/sun.jpg"); 
 
     // Load the sun image for CPU sampling
     Image sunImg = LoadImage("resources/textures/sun.jpg");
@@ -167,18 +165,17 @@ int main(void) {
         orbitModels[i].materials[0].maps[MATERIAL_MAP_EMISSION].texture = sunTex;
 
         lightColor[i] = emissiveColor[i] = Vector3Scale(orbits[i].color, sunMask);
-        lightIntensity[i] = emissiveIntensity[i] = 1.0f;
+        lightIntensity[i] = emissiveIntensity[i] = 2.5f;
     }
 
     // Set colors
-    Vector3 ambientColor = { 0.005f, 0.005f, 0.005f };
-    Vector3 diffuseColor = { 0.8f, 0.7f, 0.6f };
+    Vector3 ambientColor = { 0.05f, 0.05f, 0.05f };
     Vector3 specularColor = { 1.0f, 1.0f, 1.0f };
     float shininess = 32.0f;
 
     // Set HDR parameters
     float exposure = 1.0f;
-    float gamma = 2.2f;
+    float gamma = 1.0f;
 
     // Set objects rotation and scale
     float moonSpinAngle = 0.0f;
@@ -220,7 +217,6 @@ int main(void) {
 
         SetShaderValue(sh, locEyePos, &cam.position, SHADER_UNIFORM_VEC3);
         SetShaderValue(sh, locAmb, &ambientColor, SHADER_UNIFORM_VEC3);
-        SetShaderValue(sh, locDiff, &diffuseColor, SHADER_UNIFORM_VEC3);
         SetShaderValue(sh, locSpec, &specularColor, SHADER_UNIFORM_VEC3);
         SetShaderValue(sh, locShine, &shininess, SHADER_UNIFORM_FLOAT);
         
@@ -252,16 +248,15 @@ int main(void) {
                 EndShaderMode();
 
                 BeginShaderMode(shEmis);
-                    BeginBlendMode(BLEND_ADDITIVE);
-                        for (int i = 0; i < NUM_ORBITS; i++) {
-                            SetShaderValue(shEmis, locEmis, &emissiveColor[i], SHADER_UNIFORM_VEC3);
-                            SetShaderValue(shEmis, locEmisInt, &emissiveIntensity[i], SHADER_UNIFORM_FLOAT);
-                            DrawModelEx(orbitModels[i], positions[i], axes[i], orbitSpinAngle, orbitScale, WHITE);
-                        }
-                    EndBlendMode();
+                    for (int i = 0; i < NUM_ORBITS; i++) {
+                        SetShaderValue(shEmis, locEmis, &emissiveColor[i], SHADER_UNIFORM_VEC3);
+                        SetShaderValue(shEmis, locEmisInt, &emissiveIntensity[i], SHADER_UNIFORM_FLOAT);
+                        DrawModelEx(orbitModels[i], positions[i], axes[i], orbitSpinAngle, orbitScale, WHITE);
+                    }
                 EndShaderMode();
 
             EndMode3D();
+            DrawFPS(10, 10);
         //EndTextureMode();
         EndDrawing();
 

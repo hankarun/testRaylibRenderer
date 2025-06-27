@@ -1,0 +1,14 @@
+# Target labels
+ raylib-populate
+# Source files and their labels
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/CMakeFiles/raylib-populate
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/CMakeFiles/raylib-populate.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/CMakeFiles/raylib-populate-complete.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test.rule
+/Users/onursmacbook/Documents/simsoft/raylib-demo/build-x86/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update.rule

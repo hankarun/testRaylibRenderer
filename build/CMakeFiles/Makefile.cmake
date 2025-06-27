@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/Users/onursmacbook/Documents/simsoft/raylib-demo/CMakeLists.txt"
-  "CMakeFiles/4.0.2/CMakeCCompiler.cmake"
-  "CMakeFiles/4.0.2/CMakeSystem.cmake"
+  "CMakeFiles/4.0.3/CMakeCCompiler.cmake"
+  "CMakeFiles/4.0.3/CMakeSystem.cmake"
   "/opt/homebrew/lib/cmake/raylib/raylib-config-version.cmake"
   "/opt/homebrew/lib/cmake/raylib/raylib-config.cmake"
   "/opt/homebrew/share/cmake/Modules/CMakeCInformation.cmake"
