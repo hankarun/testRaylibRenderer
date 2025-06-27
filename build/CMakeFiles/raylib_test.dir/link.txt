@@ -1,1 +1,1 @@
-/usr/bin/clang -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/raylib_test.dir/main.c.o -o raylib_test  /opt/homebrew/opt/raylib/lib/libraylib.dylib
+/usr/bin/cc  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/raylib_test.dir/main.c.o -o raylib_test  /opt/homebrew/lib/libraylib.dylib

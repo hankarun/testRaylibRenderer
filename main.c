@@ -129,6 +129,7 @@ int main(void) {
     Model sponzaModel = LoadModel("../resources/objects/sponza.glb");
     for (int i = 0; i < sponzaModel.materialCount; i++) {
         sponzaModel.materials[i].shader = sh;
+        GenTextureMipmaps(&sponzaModel.materials[i].maps[MATERIAL_MAP_DIFFUSE].texture);
     }
 
     //moonModel.materials[0].shader = sh;
@@ -177,7 +178,7 @@ int main(void) {
 
     // Set HDR parameters
     float exposure = 1.0f;
-    float gamma = 1.0f;
+    float gamma = 2.2f;
 
     // Set objects rotation and scale
     float moonSpinAngle = 0.0f;
@@ -230,7 +231,8 @@ int main(void) {
             SetShaderValue(shEmis, locEmisInt, &emissiveIntensity[i], SHADER_UNIFORM_FLOAT);
         }
 
-        BeginTextureMode(hdr);
+        BeginDrawing();
+        //BeginTextureMode(hdr);
             ClearBackground(BLACK);
             BeginMode3D(cam);
 
@@ -260,8 +262,10 @@ int main(void) {
                 EndShaderMode();
 
             EndMode3D();
-        EndTextureMode();
+        //EndTextureMode();
+        EndDrawing();
 
+        /*
         BeginDrawing();
             ClearBackground(BLACK);
 
@@ -274,6 +278,7 @@ int main(void) {
 
             DrawFPS(10, 10);
         EndDrawing();
+        */
     }
 
     UnloadShader(sh);

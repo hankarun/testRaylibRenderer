@@ -1,18 +1,45 @@
 cmake_minimum_required(VERSION 3.10)
 project(raylib_test C)
 
-# Require C11
+# Require C11 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Tell CMake where Homebrew puts raylib
-list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/raylib")
+# Allow override of install location
+if(DEFINED ENV{RAYLIB_ROOT})
+  list(APPEND CMAKE_PREFIX_PATH $ENV{RAYLIB_ROOT})
+endif()
 
-# Find the raylib config file
-find_package(raylib CONFIG REQUIRED)
+# Try Config-mode find_package
+find_package(raylib CONFIG QUIET)
 
-# Your executable
+# Try pkg-config if Config failed
+if(NOT raylib_FOUND)
+  find_package(PkgConfig QUIET)
+  if(PKG_CONFIG_FOUND)
+    pkg_check_modules(RAYLIB_PKG raylib)
+    if(RAYLIB_PKG_FOUND)
+      add_library(raylib INTERFACE)
+      target_include_directories(raylib INTERFACE ${RAYLIB_PKG_INCLUDE_DIRS})
+      target_link_libraries(raylib INTERFACE ${RAYLIB_PKG_LIBRARIES})
+      set(raylib_FOUND TRUE)
+    endif()
+  endif()
+endif()
+
+# Fetch & build raylib if still missing
+if(NOT raylib_FOUND)
+  include(FetchContent)
+  FetchContent_Declare(
+    raylib
+    GIT_REPOSITORY https://github.com/raysan5/raylib.git
+    GIT_TAG        v4.5.0  # or "master"/"dev" as desired
+  )
+  # disable examples/tests inside raylib
+  set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+  set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(raylib)
+endif()
+
 add_executable(${PROJECT_NAME} main.c)
-
-# Link in raylib (and its dependencies/frameworks)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)

@@ -76,15 +76,15 @@ CMakeFiles/raylib_test.dir/main.c.o: CMakeFiles/raylib_test.dir/flags.make
 CMakeFiles/raylib_test.dir/main.c.o: /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c
 CMakeFiles/raylib_test.dir/main.c.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/raylib_test.dir/main.c.o"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/main.c.o -MF CMakeFiles/raylib_test.dir/main.c.o.d -o CMakeFiles/raylib_test.dir/main.c.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/main.c.o -MF CMakeFiles/raylib_test.dir/main.c.o.d -o CMakeFiles/raylib_test.dir/main.c.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c
 
 CMakeFiles/raylib_test.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib_test.dir/main.c.i"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c > CMakeFiles/raylib_test.dir/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c > CMakeFiles/raylib_test.dir/main.c.i
 
 CMakeFiles/raylib_test.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib_test.dir/main.c.s"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c -o CMakeFiles/raylib_test.dir/main.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c -o CMakeFiles/raylib_test.dir/main.c.s
 
 # Object files for target raylib_test
 raylib_test_OBJECTS = \
@@ -95,7 +95,7 @@ raylib_test_EXTERNAL_OBJECTS =
 
 raylib_test: CMakeFiles/raylib_test.dir/main.c.o
 raylib_test: CMakeFiles/raylib_test.dir/build.make
-raylib_test: /opt/homebrew/opt/raylib/lib/libraylib.dylib
+raylib_test: /opt/homebrew/lib/libraylib.dylib
 raylib_test: CMakeFiles/raylib_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable raylib_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/raylib_test.dir/link.txt --verbose=$(VERBOSE)
