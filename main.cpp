@@ -294,6 +294,10 @@ int main(void) {
     float bloomThreshold = 1.0f;
     bool enableFXAA = true;
 
+    // Light management UI
+    bool showLightDetails = false;
+    int selectedLight = 0;
+
     // Set objects rotation and scale
     float moonSpinAngle = 0.0f;
     float moonSpinSpeed = 45.0;
@@ -476,9 +480,62 @@ int main(void) {
                 ImGui::DragFloat3("Specular Color", (float*)&specularColor, 0.01f, 0.0f, 2.0f);
                 ImGui::DragFloat("Gamma", &gamma, 0.01f, 1.0f, 3.0f);
                 ImGui::Checkbox("Enable FXAA", &enableFXAA);
+                
+                ImGui::Separator();
+                ImGui::Checkbox("Show Light Details", &showLightDetails);
             }
-
             ImGui::End();
+
+            // Light Details Window
+            if (showLightDetails) {
+                if (ImGui::Begin("Light Details", &showLightDetails)) {
+                    // Light selection list
+                    ImGui::Text("Lights:");
+                    if (ImGui::BeginListBox("##LightList", ImVec2(-1, 100))) {
+                        for (int i = 0; i < NUM_ORBITS; i++) {
+                            char lightName[32];
+                            sprintf(lightName, "Light %d", i);
+                            
+                            bool isSelected = (selectedLight == i);
+                            if (ImGui::Selectable(lightName, isSelected)) {
+                                selectedLight = i;
+                            }
+                        }
+                        ImGui::EndListBox();
+                    }
+                    
+                    ImGui::Separator();
+                    
+                    // Selected light properties
+                    if (selectedLight >= 0 && selectedLight < NUM_ORBITS) {
+                        ImGui::Text("Light %d Properties:", selectedLight);
+                        
+                        // Position (read-only since it's calculated from orbit)
+                        ImGui::Text("Position: %.2f, %.2f, %.2f", 
+                                  lights[selectedLight].position.x,
+                                  lights[selectedLight].position.y, 
+                                  lights[selectedLight].position.z);
+                        
+                        // Color
+                        if (ImGui::ColorEdit3("Color", (float*)&lights[selectedLight].color)) {
+                            // Update both light color and emissive color
+                            emissiveColor[selectedLight] = lights[selectedLight].color;
+                            orbits[selectedLight].color = lights[selectedLight].color;
+                        }
+                        
+                        // Intensity
+                        if (ImGui::DragFloat("Intensity", &lights[selectedLight].intensity, 0.1f, 0.0f, 10.0f)) {
+                            emissiveIntensity[selectedLight] = lights[selectedLight].intensity;
+                        }
+                        
+                        // Orbit start position
+                        if (ImGui::DragFloat3("Orbit Start", (float*)&starts[selectedLight], 0.1f, -20.0f, 20.0f)) {
+                            // Position will be recalculated in the main loop
+                        }
+                    }
+                }
+                ImGui::End();
+            }
             rlImGuiEnd();
 
             DrawFPS(10, 10);
