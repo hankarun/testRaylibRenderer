@@ -72,32 +72,144 @@ include CMakeFiles/raylib_test.dir/flags.make
 CMakeFiles/raylib_test.dir/codegen:
 .PHONY : CMakeFiles/raylib_test.dir/codegen
 
-CMakeFiles/raylib_test.dir/main.c.o: CMakeFiles/raylib_test.dir/flags.make
-CMakeFiles/raylib_test.dir/main.c.o: /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c
-CMakeFiles/raylib_test.dir/main.c.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/raylib_test.dir/main.c.o"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/main.c.o -MF CMakeFiles/raylib_test.dir/main.c.o.d -o CMakeFiles/raylib_test.dir/main.c.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c
+CMakeFiles/raylib_test.dir/main.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/main.cpp.o: /Users/onursmacbook/Documents/simsoft/raylib-demo/main.cpp
+CMakeFiles/raylib_test.dir/main.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/raylib_test.dir/main.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/main.cpp.o -MF CMakeFiles/raylib_test.dir/main.cpp.o.d -o CMakeFiles/raylib_test.dir/main.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/main.cpp
 
-CMakeFiles/raylib_test.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib_test.dir/main.c.i"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c > CMakeFiles/raylib_test.dir/main.c.i
+CMakeFiles/raylib_test.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/main.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/main.cpp > CMakeFiles/raylib_test.dir/main.cpp.i
 
-CMakeFiles/raylib_test.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib_test.dir/main.c.s"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/main.c -o CMakeFiles/raylib_test.dir/main.c.s
+CMakeFiles/raylib_test.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/main.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/main.cpp -o CMakeFiles/raylib_test.dir/main.cpp.s
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o: _deps/imgui-src/imgui.cpp
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o -MF CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o.d -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui.cpp
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui.cpp > CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.i
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui.cpp -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.s
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o: _deps/imgui-src/imgui_demo.cpp
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o -MF CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o.d -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_demo.cpp
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_demo.cpp > CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.i
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_demo.cpp -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.s
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o: _deps/imgui-src/imgui_draw.cpp
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o -MF CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o.d -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_draw.cpp
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_draw.cpp > CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.i
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_draw.cpp -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.s
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o: _deps/imgui-src/imgui_tables.cpp
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o -MF CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o.d -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_tables.cpp
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_tables.cpp > CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.i
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_tables.cpp -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.s
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o: _deps/imgui-src/imgui_widgets.cpp
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o -MF CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o.d -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_widgets.cpp
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_widgets.cpp > CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.i
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/imgui_widgets.cpp -o CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.s
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o: _deps/imgui-src/backends/imgui_impl_opengl3.cpp
+CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/backends/imgui_impl_opengl3.cpp
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/backends/imgui_impl_opengl3.cpp > CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i
+
+CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/imgui-src/backends/imgui_impl_opengl3.cpp -o CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s
+
+CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o: CMakeFiles/raylib_test.dir/flags.make
+CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o: _deps/rlimgui-src/rlImGui.cpp
+CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o: CMakeFiles/raylib_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o -MF CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o.d -o CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o -c /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/rlimgui-src/rlImGui.cpp
+
+CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/rlimgui-src/rlImGui.cpp > CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.i
+
+CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/rlimgui-src/rlImGui.cpp -o CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.s
 
 # Object files for target raylib_test
 raylib_test_OBJECTS = \
-"CMakeFiles/raylib_test.dir/main.c.o"
+"CMakeFiles/raylib_test.dir/main.cpp.o" \
+"CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o" \
+"CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o" \
+"CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o" \
+"CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o" \
+"CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o" \
+"CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o" \
+"CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o"
 
 # External object files for target raylib_test
 raylib_test_EXTERNAL_OBJECTS =
 
-raylib_test: CMakeFiles/raylib_test.dir/main.c.o
+raylib_test: CMakeFiles/raylib_test.dir/main.cpp.o
+raylib_test: CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o
+raylib_test: CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o
+raylib_test: CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o
+raylib_test: CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o
+raylib_test: CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o
+raylib_test: CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o
+raylib_test: CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o
 raylib_test: CMakeFiles/raylib_test.dir/build.make
 raylib_test: /opt/homebrew/Cellar/raylib/5.5/lib/libraylib.dylib
 raylib_test: CMakeFiles/raylib_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable raylib_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable raylib_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/raylib_test.dir/link.txt --verbose=$(VERBOSE)
 	/opt/homebrew/bin/cmake -E copy_directory /Users/onursmacbook/Documents/simsoft/raylib-demo/resources /Users/onursmacbook/Documents/simsoft/raylib-demo/build/resources
 

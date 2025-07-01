@@ -1,8 +1,9 @@
 #version 330
 #define MAX_LIGHTS 8
 
-// output
-out vec4 fragColor;
+// outputs
+layout (location = 0) out vec4 fragColor;
+layout (location = 1) out vec4 brightColor;
 
 // interpolated from vertex shader
 in vec3 fragPos;
@@ -45,7 +46,7 @@ void main() {
 
         // inverse‐square attenuation
         float dist = length(L);
-        float att = 1/max(1e-4f, dist*dist);
+        float att = 1/max(1e-4f, dist*dist*dist);
         L = normalize(L);
 
         // ambient
@@ -62,6 +63,12 @@ void main() {
     }
 
     fragColor = vec4(ambientAccum + diffuseAccum + specularAccum, 1.0);
+
+    float brightness = dot(fragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+    if (brightness > 1.0) 
+        brightColor = vec4(fragColor.rgb, 1.0);
+    else 
+        brightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
 

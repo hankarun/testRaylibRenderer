@@ -11,6 +11,8 @@
     "raymath.h": "c",
     "math.h": "c",
     "__locale": "c",
-    "rlgl.h": "c"
+    "rlgl.h": "c",
+    "cstdlib": "cpp",
+    "iostream": "cpp"
 }
 }

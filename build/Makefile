@@ -129,29 +129,197 @@ raylib_test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/build
 .PHONY : raylib_test/fast
 
-main.o: main.c.o
+_deps/imgui-src/backends/imgui_impl_opengl3.o: _deps/imgui-src/backends/imgui_impl_opengl3.cpp.o
+.PHONY : _deps/imgui-src/backends/imgui_impl_opengl3.o
+
+# target to build an object file
+_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o
+.PHONY : _deps/imgui-src/backends/imgui_impl_opengl3.cpp.o
+
+_deps/imgui-src/backends/imgui_impl_opengl3.i: _deps/imgui-src/backends/imgui_impl_opengl3.cpp.i
+.PHONY : _deps/imgui-src/backends/imgui_impl_opengl3.i
+
+# target to preprocess a source file
+_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i
+.PHONY : _deps/imgui-src/backends/imgui_impl_opengl3.cpp.i
+
+_deps/imgui-src/backends/imgui_impl_opengl3.s: _deps/imgui-src/backends/imgui_impl_opengl3.cpp.s
+.PHONY : _deps/imgui-src/backends/imgui_impl_opengl3.s
+
+# target to generate assembly for a file
+_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s
+.PHONY : _deps/imgui-src/backends/imgui_impl_opengl3.cpp.s
+
+_deps/imgui-src/imgui.o: _deps/imgui-src/imgui.cpp.o
+.PHONY : _deps/imgui-src/imgui.o
+
+# target to build an object file
+_deps/imgui-src/imgui.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.o
+.PHONY : _deps/imgui-src/imgui.cpp.o
+
+_deps/imgui-src/imgui.i: _deps/imgui-src/imgui.cpp.i
+.PHONY : _deps/imgui-src/imgui.i
+
+# target to preprocess a source file
+_deps/imgui-src/imgui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.i
+.PHONY : _deps/imgui-src/imgui.cpp.i
+
+_deps/imgui-src/imgui.s: _deps/imgui-src/imgui.cpp.s
+.PHONY : _deps/imgui-src/imgui.s
+
+# target to generate assembly for a file
+_deps/imgui-src/imgui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui.cpp.s
+.PHONY : _deps/imgui-src/imgui.cpp.s
+
+_deps/imgui-src/imgui_demo.o: _deps/imgui-src/imgui_demo.cpp.o
+.PHONY : _deps/imgui-src/imgui_demo.o
+
+# target to build an object file
+_deps/imgui-src/imgui_demo.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.o
+.PHONY : _deps/imgui-src/imgui_demo.cpp.o
+
+_deps/imgui-src/imgui_demo.i: _deps/imgui-src/imgui_demo.cpp.i
+.PHONY : _deps/imgui-src/imgui_demo.i
+
+# target to preprocess a source file
+_deps/imgui-src/imgui_demo.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.i
+.PHONY : _deps/imgui-src/imgui_demo.cpp.i
+
+_deps/imgui-src/imgui_demo.s: _deps/imgui-src/imgui_demo.cpp.s
+.PHONY : _deps/imgui-src/imgui_demo.s
+
+# target to generate assembly for a file
+_deps/imgui-src/imgui_demo.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_demo.cpp.s
+.PHONY : _deps/imgui-src/imgui_demo.cpp.s
+
+_deps/imgui-src/imgui_draw.o: _deps/imgui-src/imgui_draw.cpp.o
+.PHONY : _deps/imgui-src/imgui_draw.o
+
+# target to build an object file
+_deps/imgui-src/imgui_draw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.o
+.PHONY : _deps/imgui-src/imgui_draw.cpp.o
+
+_deps/imgui-src/imgui_draw.i: _deps/imgui-src/imgui_draw.cpp.i
+.PHONY : _deps/imgui-src/imgui_draw.i
+
+# target to preprocess a source file
+_deps/imgui-src/imgui_draw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.i
+.PHONY : _deps/imgui-src/imgui_draw.cpp.i
+
+_deps/imgui-src/imgui_draw.s: _deps/imgui-src/imgui_draw.cpp.s
+.PHONY : _deps/imgui-src/imgui_draw.s
+
+# target to generate assembly for a file
+_deps/imgui-src/imgui_draw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_draw.cpp.s
+.PHONY : _deps/imgui-src/imgui_draw.cpp.s
+
+_deps/imgui-src/imgui_tables.o: _deps/imgui-src/imgui_tables.cpp.o
+.PHONY : _deps/imgui-src/imgui_tables.o
+
+# target to build an object file
+_deps/imgui-src/imgui_tables.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.o
+.PHONY : _deps/imgui-src/imgui_tables.cpp.o
+
+_deps/imgui-src/imgui_tables.i: _deps/imgui-src/imgui_tables.cpp.i
+.PHONY : _deps/imgui-src/imgui_tables.i
+
+# target to preprocess a source file
+_deps/imgui-src/imgui_tables.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.i
+.PHONY : _deps/imgui-src/imgui_tables.cpp.i
+
+_deps/imgui-src/imgui_tables.s: _deps/imgui-src/imgui_tables.cpp.s
+.PHONY : _deps/imgui-src/imgui_tables.s
+
+# target to generate assembly for a file
+_deps/imgui-src/imgui_tables.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_tables.cpp.s
+.PHONY : _deps/imgui-src/imgui_tables.cpp.s
+
+_deps/imgui-src/imgui_widgets.o: _deps/imgui-src/imgui_widgets.cpp.o
+.PHONY : _deps/imgui-src/imgui_widgets.o
+
+# target to build an object file
+_deps/imgui-src/imgui_widgets.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.o
+.PHONY : _deps/imgui-src/imgui_widgets.cpp.o
+
+_deps/imgui-src/imgui_widgets.i: _deps/imgui-src/imgui_widgets.cpp.i
+.PHONY : _deps/imgui-src/imgui_widgets.i
+
+# target to preprocess a source file
+_deps/imgui-src/imgui_widgets.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.i
+.PHONY : _deps/imgui-src/imgui_widgets.cpp.i
+
+_deps/imgui-src/imgui_widgets.s: _deps/imgui-src/imgui_widgets.cpp.s
+.PHONY : _deps/imgui-src/imgui_widgets.s
+
+# target to generate assembly for a file
+_deps/imgui-src/imgui_widgets.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/imgui-src/imgui_widgets.cpp.s
+.PHONY : _deps/imgui-src/imgui_widgets.cpp.s
+
+_deps/rlimgui-src/rlImGui.o: _deps/rlimgui-src/rlImGui.cpp.o
+.PHONY : _deps/rlimgui-src/rlImGui.o
+
+# target to build an object file
+_deps/rlimgui-src/rlImGui.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.o
+.PHONY : _deps/rlimgui-src/rlImGui.cpp.o
+
+_deps/rlimgui-src/rlImGui.i: _deps/rlimgui-src/rlImGui.cpp.i
+.PHONY : _deps/rlimgui-src/rlImGui.i
+
+# target to preprocess a source file
+_deps/rlimgui-src/rlImGui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.i
+.PHONY : _deps/rlimgui-src/rlImGui.cpp.i
+
+_deps/rlimgui-src/rlImGui.s: _deps/rlimgui-src/rlImGui.cpp.s
+.PHONY : _deps/rlimgui-src/rlImGui.s
+
+# target to generate assembly for a file
+_deps/rlimgui-src/rlImGui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/_deps/rlimgui-src/rlImGui.cpp.s
+.PHONY : _deps/rlimgui-src/rlImGui.cpp.s
+
+main.o: main.cpp.o
 .PHONY : main.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/main.c.o
-.PHONY : main.c.o
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-main.i: main.c.i
+main.i: main.cpp.i
 .PHONY : main.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/main.c.i
-.PHONY : main.c.i
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-main.s: main.c.s
+main.s: main.cpp.s
 .PHONY : main.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/main.c.s
-.PHONY : main.c.s
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_test.dir/build.make CMakeFiles/raylib_test.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -162,6 +330,27 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... raylib_test"
+	@echo "... _deps/imgui-src/backends/imgui_impl_opengl3.o"
+	@echo "... _deps/imgui-src/backends/imgui_impl_opengl3.i"
+	@echo "... _deps/imgui-src/backends/imgui_impl_opengl3.s"
+	@echo "... _deps/imgui-src/imgui.o"
+	@echo "... _deps/imgui-src/imgui.i"
+	@echo "... _deps/imgui-src/imgui.s"
+	@echo "... _deps/imgui-src/imgui_demo.o"
+	@echo "... _deps/imgui-src/imgui_demo.i"
+	@echo "... _deps/imgui-src/imgui_demo.s"
+	@echo "... _deps/imgui-src/imgui_draw.o"
+	@echo "... _deps/imgui-src/imgui_draw.i"
+	@echo "... _deps/imgui-src/imgui_draw.s"
+	@echo "... _deps/imgui-src/imgui_tables.o"
+	@echo "... _deps/imgui-src/imgui_tables.i"
+	@echo "... _deps/imgui-src/imgui_tables.s"
+	@echo "... _deps/imgui-src/imgui_widgets.o"
+	@echo "... _deps/imgui-src/imgui_widgets.i"
+	@echo "... _deps/imgui-src/imgui_widgets.s"
+	@echo "... _deps/rlimgui-src/rlImGui.o"
+	@echo "... _deps/rlimgui-src/rlImGui.i"
+	@echo "... _deps/rlimgui-src/rlImGui.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

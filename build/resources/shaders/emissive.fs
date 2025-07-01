@@ -1,6 +1,7 @@
 #version 330
 
-out vec4 fragColor;
+layout (location = 0) out vec4 fragColor;
+layout (location = 1) out vec4 brightColor;
 
 in vec2 fragTexCoord;
 
@@ -12,5 +13,7 @@ uniform sampler2D emissionMap;
 void main() {
     vec3 texColor = texture(emissionMap, fragTexCoord).rgb;
     float mask = dot(texColor, vec3(0.2126, 0.7152, 0.0722)); // Luminance mask
-    fragColor = vec4(u_emissiveColor * u_emissiveIntensity * mask, 1.0);
+    vec3 emis = u_emissiveColor * u_emissiveIntensity * mask;
+    fragColor = vec4(emis, 1.0);
+    brightColor = vec4(emis, 1.0);
 }
