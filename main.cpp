@@ -58,7 +58,7 @@ int main(void) {
     InitWindow(W, H, "Raylib - Demo");
     SetTargetFPS(60);
 
-    //rlImGuiSetup(true);
+    rlImGuiSetup(true);
 
     // Create and unload FBO
     RenderTexture2D hdr = LoadRenderTexture(W, H);
@@ -116,7 +116,7 @@ int main(void) {
 
     // Initialize camera
     Camera3D cam = { 0 };
-    cam.position = Vector3{ 0.0f, 2.0f, 3.0f };
+    cam.position = Vector3{ -1.0f, 2.0f, -0.5f };
     cam.target   = Vector3{ 0.0f, 0.0f, 0.0f };
     cam.up       = Vector3{ 0.0f, 1.0f, 0.0f };
     cam.fovy     = 45.0f;
@@ -239,13 +239,13 @@ int main(void) {
     }
 
     // Set colors
-    Vector3 ambientColor = { 0.01f, 0.01f, 0.01f };
+    Vector3 ambientColor = { 0.001f, 0.001f, 0.001f };
     Vector3 specularColor = { 1.0f, 1.0f, 1.0f };
     float shininess = 32.0f;
 
     // Set HDR/bloom parameters
     float exposure = 1.0f;
-    float gamma = 1.0f;
+    float gamma = 2.2f;
     float bloomThreshold = 1.0f;
 
     // Set objects rotation and scale
@@ -265,8 +265,8 @@ int main(void) {
         if (updateCamera)
             UpdateCamera(&cam, CAMERA_FREE);
         */
-
-        UpdateCamera(&cam, CAMERA_FREE);
+        if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
+            UpdateCamera(&cam, CAMERA_FREE);
 
         // Only use rotation part of the view matrix
         Matrix view = GetCameraMatrix(cam);
@@ -338,18 +338,7 @@ int main(void) {
                 EndShaderMode();
 
             EndMode3D();
-            
-            /*
-            rlImGuiBegin();
-
-            
-            if (ImGui::Begin("Controls")) {
-                ImGui::Checkbox("Update Camera", &updateCamera);
-            }
-
-            ImGui::End();
-            rlImGuiEnd();
-            */
+                              
 
             //DrawFPS(10, 10);
         EndTextureMode();
@@ -364,10 +353,10 @@ int main(void) {
                 rlActiveDrawBuffers(1);
 
                 BeginShaderMode(shBlur);
-                    Texture2D src = firstIteration ? bright.texture : pingpong[horizontal].texture;
+                    Texture2D src = firstIteration ? bright.texture : pingpong[(horizontal + 1) % 2].texture;
 
                     SetShaderValue(shBlur, locBlurHorizontal, &horizontal, SHADER_UNIFORM_INT);
-                    SetShaderValueTexture(shBlur, SHADER_LOC_MAP_DIFFUSE, src);
+                    SetShaderValueTexture(shBlur, shBlur.locs[SHADER_LOC_MAP_DIFFUSE], src);
 
                     DrawTextureRec(src, (Rectangle){ 0, 0, W, -H }, (Vector2){ 0, 0 }, WHITE);  
                 EndShaderMode();
@@ -381,10 +370,23 @@ int main(void) {
         BeginDrawing();
         
             BeginShaderMode(shHDR);
-                SetShaderValueTexture(shHDR, SHADER_LOC_MAP_DIFFUSE, hdr.texture);
-                SetShaderValueTexture(shHDR, SHADER_LOC_MAP_EMISSION, pingpong[(horizontal + 1) % 2].texture);
+                SetShaderValueTexture(shHDR, shHDR.locs[SHADER_LOC_MAP_DIFFUSE], hdr.texture);
+                SetShaderValueTexture(shHDR, shHDR.locs[SHADER_LOC_MAP_EMISSION], pingpong[(horizontal + 1) % 2].texture);
                 DrawTextureRec(hdr.texture, (Rectangle){ 0, 0, W, -H }, (Vector2){ 0, 0 }, WHITE);
             EndShaderMode();
+
+            rlImGuiBegin();
+
+            
+            if (ImGui::Begin("Controls")) {
+                ImGui::DragFloat3("Camera Pos", (float*)&cam.position, 0.01f, -10.0f, 10.0f);
+                ImGui::DragFloat3("Ambient Color", (float*)&ambientColor, 0.01f, 0.0f, 2.0f);
+                ImGui::DragFloat3("Specular Color", (float*)&specularColor, 0.01f, 0.0f, 2.0f);
+                ImGui::DragFloat("Gamma", &gamma, 0.01f, 1.0f, 3.0f);
+            }
+
+            ImGui::End();
+            rlImGuiEnd();
 
             DrawFPS(10, 10);
         EndDrawing();
