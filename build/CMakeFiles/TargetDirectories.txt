@@ -1,3 +1,0 @@
-/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles/raylib_test.dir
-/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles/edit_cache.dir
-/Users/onursmacbook/Documents/simsoft/raylib-demo/build/CMakeFiles/rebuild_cache.dir

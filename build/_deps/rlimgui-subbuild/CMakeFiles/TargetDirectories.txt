@@ -1,3 +1,0 @@
-/Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/rlimgui-subbuild/CMakeFiles/rlimgui-populate.dir
-/Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/rlimgui-subbuild/CMakeFiles/edit_cache.dir
-/Users/onursmacbook/Documents/simsoft/raylib-demo/build/_deps/rlimgui-subbuild/CMakeFiles/rebuild_cache.dir
