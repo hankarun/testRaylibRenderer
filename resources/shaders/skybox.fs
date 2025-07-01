@@ -9,5 +9,6 @@ uniform samplerCube cubemap;
 
 void main() {
     fragColor = texture(cubemap, normalize(texDir));
+    fragColor = pow(fragColor, vec4(2.2));
     brightColor = vec4(0.0, 0.0, 0.0, 0.0);
 }

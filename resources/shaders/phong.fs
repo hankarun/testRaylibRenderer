@@ -36,6 +36,8 @@ void main() {
     // texture
     vec3 texColor = texture(diffuseMap, fragTexCoord).rgb;
 
+    texColor = pow(texColor, vec3(2.2)); // gamma correction
+
     // accumulators
     vec3 ambientAccum = vec3(0.0);
     vec3 diffuseAccum = vec3(0.0);
@@ -65,7 +67,7 @@ void main() {
     fragColor = vec4(ambientAccum + diffuseAccum + specularAccum, 1.0);
 
     float brightness = dot(fragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-    if (brightness > 1.0) 
+    if (brightness > 2.5) 
         brightColor = vec4(fragColor.rgb, 1.0);
     else 
         brightColor = vec4(0.0, 0.0, 0.0, 1.0);

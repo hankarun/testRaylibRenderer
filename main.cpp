@@ -20,6 +20,9 @@ Orbit orbits[NUM_ORBITS] = {
     //{ {0.0f, 1.0f, 0.0f} }, // green
     //{ {0.0f, 0.0f, 1.0f} }, // blue
     { {0.9921f, 0.9843f, 0.8274f} }, // white
+    { {0.9921f, 0.9843f, 0.8274f} },
+    { {0.9921f, 0.9843f, 0.8274f} },
+    { {0.9921f, 0.9843f, 0.8274f} }
     //{ {1.0f, 1.0f, 0.0f} }, // yellow
     //{ {1.0f, 0.0f, 1.0f} }, // magenta
     //{ {0.0f, 1.0f, 1.0f} }, // cyan
@@ -27,7 +30,10 @@ Orbit orbits[NUM_ORBITS] = {
 };
 
 Vector3 starts[NUM_ORBITS] = {
-    {8.3f, 1.7f, 0.0f}, 
+    {8.3f, 1.7f, 0.0f},
+    {4.3f, 1.7f, 0.0f},
+    {0.3f, 1.7f, 0.0f},
+    {-4.3f, 1.7f, 0.0f}
     /*
     {-5.4f, 3.0f, 0.0f}, 
     {6.3f, 3.0f, 0.0f}, 
@@ -56,63 +62,89 @@ Vector3 axes[NUM_ORBITS] = {
 int main(void) {
     // Initialization
     InitWindow(W, H, "Raylib - Demo");
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetTargetFPS(60);
 
     rlImGuiSetup(true);
 
-    // Create and unload FBO
-    RenderTexture2D hdr = LoadRenderTexture(W, H);
-    UnloadTexture(hdr.texture);
+    // Function to create render textures
+    auto createRenderTextures = [](int width, int height, RenderTexture2D& hdr, RenderTexture2D& bright, RenderTexture2D pingpong[2]) {
+        // Clean up existing textures if they exist
+        if (hdr.id != 0) {
+            UnloadTexture(hdr.texture);
+            UnloadRenderTexture(hdr);
+        }
+        if (bright.id != 0) {
+            UnloadTexture(bright.texture);
+            UnloadRenderTexture(bright);
+        }
+        for (int i = 0; i < 2; i++) {
+            if (pingpong[i].id != 0) {
+                UnloadTexture(pingpong[i].texture);
+                UnloadRenderTexture(pingpong[i]);
+            }
+        }
 
-    // Update the Texture2D metadata
-    hdr.texture.id = rlLoadTexture(NULL, W, H, RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16, 1);
-    hdr.texture.width = W;
-    hdr.texture.height = H;
-    hdr.texture.mipmaps = 1;
-    hdr.texture.format = RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16;
+        // Create HDR render texture
+        hdr = LoadRenderTexture(width, height);
+        UnloadTexture(hdr.texture);
+        hdr.texture.id = rlLoadTexture(NULL, width, height, RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16, 1);
+        hdr.texture.width = width;
+        hdr.texture.height = height;
+        hdr.texture.mipmaps = 1;
+        hdr.texture.format = RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16;
 
-    RenderTexture2D bright = LoadRenderTexture(W, H);
-    UnloadTexture(bright.texture);
+        // Create bright render texture
+        bright = LoadRenderTexture(width, height);
+        UnloadTexture(bright.texture);
+        bright.texture.id = rlLoadTexture(NULL, width, height, RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16, 1);
+        bright.texture.width = width;
+        bright.texture.height = height;
+        bright.texture.mipmaps = 1;
+        bright.texture.format = RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16;
 
-    bright.texture.id = rlLoadTexture(NULL, W, H, RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16, 1);
-    bright.texture.width = W;
-    bright.texture.height = H;
-    bright.texture.mipmaps = 1;
-    bright.texture.format = RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16;
+        // Bind the same FBO and attach both to it
+        rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, hdr.id);
+        rlBindFramebuffer(RL_READ_FRAMEBUFFER, hdr.id);
+            rlFramebufferAttach(hdr.id, hdr.texture.id, RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0);
+            rlFramebufferAttach(hdr.id, bright.texture.id, RL_ATTACHMENT_COLOR_CHANNEL1, RL_ATTACHMENT_TEXTURE2D, 0);
+        
+        // Activate two draw color buffers
+        rlActiveDrawBuffers(2);
 
-    // Bind the same FBO and attach both to it
-    rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, hdr.id);
-    rlBindFramebuffer(RL_READ_FRAMEBUFFER, hdr.id);
-        rlFramebufferAttach(hdr.id, hdr.texture.id, RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0);
-        rlFramebufferAttach(hdr.id, bright.texture.id, RL_ATTACHMENT_COLOR_CHANNEL1, RL_ATTACHMENT_TEXTURE2D, 0);
-    
-    // Activate two draw color buffers
-    rlActiveDrawBuffers(2);
-
-    // Unbind buffers
-    rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, 0);
-    rlBindFramebuffer(RL_READ_FRAMEBUFFER, 0);
-
-    // Ping-pong FBOs for Gaussian blur
-    RenderTexture2D pingpong[2];
-    for (int i = 0; i < 2; i++) {
-        pingpong[i] = LoadRenderTexture(W, H);
-        UnloadTexture(pingpong[i].texture);
-
-        pingpong[i].texture.id = rlLoadTexture(NULL, W, H, RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16, 1);
-        pingpong[i].texture.width = W;
-        pingpong[i].texture.height = H;
-        pingpong[i].texture.mipmaps = 1;
-        pingpong[i].texture.format = RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16;
-
-        rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, pingpong[i].id);
-        rlBindFramebuffer(RL_READ_FRAMEBUFFER, pingpong[i].id);
-            rlFramebufferAttach(pingpong[i].id, pingpong[i].texture.id, RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0);
-            rlActiveDrawBuffers(1);
-
+        // Unbind buffers
         rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, 0);
         rlBindFramebuffer(RL_READ_FRAMEBUFFER, 0);
-    }
+
+        // Ping-pong FBOs for Gaussian blur
+        for (int i = 0; i < 2; i++) {
+            pingpong[i] = LoadRenderTexture(width, height);
+            UnloadTexture(pingpong[i].texture);
+
+            pingpong[i].texture.id = rlLoadTexture(NULL, width, height, RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16, 1);
+            pingpong[i].texture.width = width;
+            pingpong[i].texture.height = height;
+            pingpong[i].texture.mipmaps = 1;
+            pingpong[i].texture.format = RL_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16;
+
+            rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, pingpong[i].id);
+            rlBindFramebuffer(RL_READ_FRAMEBUFFER, pingpong[i].id);
+                rlFramebufferAttach(pingpong[i].id, pingpong[i].texture.id, RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0);
+                rlActiveDrawBuffers(1);
+
+            rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, 0);
+            rlBindFramebuffer(RL_READ_FRAMEBUFFER, 0);
+        }
+    };
+
+    // Get current window dimensions
+    int currentWidth = GetScreenWidth();
+    int currentHeight = GetScreenHeight();
+
+    // Create render textures
+    RenderTexture2D hdr, bright;
+    RenderTexture2D pingpong[2];
+    createRenderTextures(currentWidth, currentHeight, hdr, bright, pingpong);
 
     // Initialize camera
     Camera3D cam = { 0 };
@@ -124,9 +156,9 @@ int main(void) {
     
     // Load shaders
     Shader sh = LoadShader("resources/shaders/default.vs", "resources/shaders/phong.fs");
-    int locLightPos  = GetShaderLocation(sh, "u_lightPos");
-    int locLightCol  = GetShaderLocation(sh, "u_lightColor");
-    int locLightInt  = GetShaderLocation(sh, "u_lightIntensity");
+    int locLightPos  = GetShaderLocation(sh, "u_lightPos[0]");
+    int locLightCol  = GetShaderLocation(sh, "u_lightColor[0]");
+    int locLightInt  = GetShaderLocation(sh, "u_lightIntensity[0]");
     int locEyePos    = GetShaderLocation(sh, "u_eyePos");
     int locAmb       = GetShaderLocation(sh, "u_ambientColor");
     int locSpec      = GetShaderLocation(sh, "u_specularColor");
@@ -261,6 +293,14 @@ int main(void) {
     //bool updateCamera = false;
     
     while (!WindowShouldClose()) {
+        // Check for window resize
+        int newWidth = GetScreenWidth();
+        int newHeight = GetScreenHeight();
+        if (newWidth != currentWidth || newHeight != currentHeight) {
+            currentWidth = newWidth;
+            currentHeight = newHeight;
+            createRenderTextures(currentWidth, currentHeight, hdr, bright, pingpong);
+        }
         /*
         if (updateCamera)
             UpdateCamera(&cam, CAMERA_FREE);
@@ -274,7 +314,7 @@ int main(void) {
         SetShaderValueMatrix(shSky, locRotView, view);
 
         // Build projection matrix
-        float aspect = (float)W / (float)H;
+        float aspect = (float)currentWidth / (float)currentHeight;
         Matrix projection = MatrixPerspective(cam.fovy * DEG2RAD, aspect, 0.1f, 1000.0f);
         SetShaderValueMatrix(shSky, locProjection, projection);
 
@@ -358,7 +398,9 @@ int main(void) {
                     SetShaderValue(shBlur, locBlurHorizontal, &horizontal, SHADER_UNIFORM_INT);
                     SetShaderValueTexture(shBlur, shBlur.locs[SHADER_LOC_MAP_DIFFUSE], src);
 
-                    DrawTextureRec(src, (Rectangle){ 0, 0, W, -H }, (Vector2){ 0, 0 }, WHITE);  
+                    Rectangle srcRect = { 0, 0, (float)currentWidth, -(float)currentHeight };
+                    Vector2 position = { 0, 0 };
+                    DrawTextureRec(src, srcRect, position, WHITE);  
                 EndShaderMode();
                 
             EndTextureMode();
@@ -372,7 +414,9 @@ int main(void) {
             BeginShaderMode(shHDR);
                 SetShaderValueTexture(shHDR, shHDR.locs[SHADER_LOC_MAP_DIFFUSE], hdr.texture);
                 SetShaderValueTexture(shHDR, shHDR.locs[SHADER_LOC_MAP_EMISSION], pingpong[(horizontal + 1) % 2].texture);
-                DrawTextureRec(hdr.texture, (Rectangle){ 0, 0, W, -H }, (Vector2){ 0, 0 }, WHITE);
+                Rectangle hdrRect = { 0, 0, (float)currentWidth, -(float)currentHeight };
+                Vector2 hdrPosition = { 0, 0 };
+                DrawTextureRec(hdr.texture, hdrRect, hdrPosition, WHITE);
             EndShaderMode();
 
             rlImGuiBegin();
