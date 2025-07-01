@@ -19,6 +19,7 @@ typedef struct {
     Vector3 position;
     Vector3 color;
     float intensity;
+    float range;
 } Light;
 
 Orbit orbits[NUM_ORBITS] = {
@@ -280,7 +281,8 @@ int main(void) {
         orbitModels[i].materials[0].maps[MATERIAL_MAP_EMISSION].texture = sunTex;
 
         lights[i].color = emissiveColor[i] = Vector3Scale(orbits[i].color, sunMask);
-        lights[i].intensity = emissiveIntensity[i] = 3.0f;
+        lights[i].intensity = emissiveIntensity[i] = 1.0f;
+        lights[i].range = 4.0f; // Default range value
     }
 
     // Set colors
@@ -365,6 +367,11 @@ int main(void) {
             sprintf(uniformName, "u_lights[%d].intensity", i);
             int locInt = GetShaderLocation(sh, uniformName);
             if (locInt != -1) SetShaderValue(sh, locInt, &lights[i].intensity, SHADER_UNIFORM_FLOAT);
+            
+            // Set range
+            sprintf(uniformName, "u_lights[%d].range", i);
+            int locRange = GetShaderLocation(sh, uniformName);
+            if (locRange != -1) SetShaderValue(sh, locRange, &lights[i].range, SHADER_UNIFORM_FLOAT);
         }
 
         SetShaderValue(sh, locEyePos, &cam.position, SHADER_UNIFORM_VEC3);
@@ -527,6 +534,9 @@ int main(void) {
                         if (ImGui::DragFloat("Intensity", &lights[selectedLight].intensity, 0.1f, 0.0f, 10.0f)) {
                             emissiveIntensity[selectedLight] = lights[selectedLight].intensity;
                         }
+                        
+                        // Range
+                        ImGui::DragFloat("Range", &lights[selectedLight].range, 0.5f, 0.1f, 50.0f, "%.1f");
                         
                         // Orbit start position
                         if (ImGui::DragFloat3("Orbit Start", (float*)&starts[selectedLight], 0.1f, -20.0f, 20.0f)) {

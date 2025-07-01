@@ -15,6 +15,7 @@ struct Light {
     vec3 position;
     vec3 color;
     float intensity;
+    float range;  // maximum range of the light
 };
 
 // scene uniforms
@@ -51,9 +52,22 @@ void main() {
     for (int i = 0; i < MAX_LIGHTS; i++) {
         vec3 L = u_lights[i].position - fragPos;
 
-        // inverse‐square attenuation
+        // inverse-square attenuation
         float dist = length(L);
-        float att = 1/max(1e-4f, dist*dist*dist);
+        
+        // Apply range-based attenuation
+        float rangeAttenuation = max(0.0, 1.0 - pow(dist/max(u_lights[i].range, 0.001), 4.0));
+        rangeAttenuation = rangeAttenuation * rangeAttenuation;
+        
+        // Calculate standard inverse-square falloff
+        float constant = 1.0;
+        float linear = 0.09;
+        float quadratic = 0.032;
+        float att = 1.0 / (constant + linear * dist + quadratic * dist * dist);
+        
+        // Combine both attenuation types
+        att *= rangeAttenuation;
+        
         L = normalize(L);
 
         // ambient
