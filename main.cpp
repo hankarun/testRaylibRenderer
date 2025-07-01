@@ -324,22 +324,22 @@ void UpdateShaderUniforms() {
         char uniformName[64];
         
         // Set position
-        sprintf(uniformName, "u_lights[%d].position", i);
+        snprintf(uniformName, sizeof(uniformName), "u_lights[%d].position", i);
         int locPos = GetShaderLocation(sh, uniformName);
         if (locPos != -1) SetShaderValue(sh, locPos, &lights[i].position, SHADER_UNIFORM_VEC3);
         
         // Set color
-        sprintf(uniformName, "u_lights[%d].color", i);
+        snprintf(uniformName, sizeof(uniformName), "u_lights[%d].color", i);
         int locCol = GetShaderLocation(sh, uniformName);
         if (locCol != -1) SetShaderValue(sh, locCol, &lights[i].color, SHADER_UNIFORM_VEC3);
         
         // Set intensity
-        sprintf(uniformName, "u_lights[%d].intensity", i);
+        snprintf(uniformName, sizeof(uniformName), "u_lights[%d].intensity", i);
         int locInt = GetShaderLocation(sh, uniformName);
         if (locInt != -1) SetShaderValue(sh, locInt, &lights[i].intensity, SHADER_UNIFORM_FLOAT);
         
         // Set range
-        sprintf(uniformName, "u_lights[%d].range", i);
+        snprintf(uniformName, sizeof(uniformName), "u_lights[%d].range", i);
         int locRange = GetShaderLocation(sh, uniformName);
         if (locRange != -1) SetShaderValue(sh, locRange, &lights[i].range, SHADER_UNIFORM_FLOAT);
     }
@@ -488,7 +488,7 @@ void DrawUI() {
             if (ImGui::BeginListBox("##LightList", ImVec2(-1, 100))) {
                 for (int i = 0; i < NUM_LIGHTS; i++) {
                     char lightName[32];
-                    sprintf(lightName, "Light %d", i);
+                    snprintf(lightName, sizeof(lightName), "Light %d", i);
                     
                     bool isSelected = (selectedLight == i);
                     if (ImGui::Selectable(lightName, isSelected)) {
