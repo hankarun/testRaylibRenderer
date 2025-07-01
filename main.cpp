@@ -15,6 +15,12 @@ typedef struct  {
     Vector3 color;
 } Orbit;
 
+typedef struct {
+    Vector3 position;
+    Vector3 color;
+    float intensity;
+} Light;
+
 Orbit orbits[NUM_ORBITS] = {
     //{ {1.0f, 0.0f, 0.0f} }, // red
     //{ {0.0f, 1.0f, 0.0f} }, // green
@@ -163,9 +169,6 @@ int main(void) {
     
     // Load shaders
     Shader sh = LoadShader("resources/shaders/default.vs", "resources/shaders/phong.fs");
-    int locLightPos  = GetShaderLocation(sh, "u_lightPos[0]");
-    int locLightCol  = GetShaderLocation(sh, "u_lightColor[0]");
-    int locLightInt  = GetShaderLocation(sh, "u_lightIntensity[0]");
     int locEyePos    = GetShaderLocation(sh, "u_eyePos");
     int locAmb       = GetShaderLocation(sh, "u_ambientColor");
     int locSpec      = GetShaderLocation(sh, "u_specularColor");
@@ -264,8 +267,7 @@ int main(void) {
     skyModel.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = skyTex;
     
     Model orbitModels[NUM_ORBITS];
-    Vector3 lightColor[NUM_ORBITS];
-    float lightIntensity[NUM_ORBITS];
+    Light lights[NUM_ORBITS];
     Vector3 emissiveColor[NUM_ORBITS];
     float emissiveIntensity[NUM_ORBITS];
     
@@ -277,8 +279,8 @@ int main(void) {
         orbitModels[i].materials[0].shader = shEmis;
         orbitModels[i].materials[0].maps[MATERIAL_MAP_EMISSION].texture = sunTex;
 
-        lightColor[i] = emissiveColor[i] = Vector3Scale(orbits[i].color, sunMask);
-        lightIntensity[i] = emissiveIntensity[i] = 3.0f;
+        lights[i].color = emissiveColor[i] = Vector3Scale(orbits[i].color, sunMask);
+        lights[i].intensity = emissiveIntensity[i] = 3.0f;
     }
 
     // Set colors
@@ -338,12 +340,28 @@ int main(void) {
         Vector3 positions[NUM_ORBITS];
         for (int i = 0; i < NUM_ORBITS; i++) {
             positions[i] = Vector3RotateByAxisAngle(starts[i], axes[i], orbitSpinAngle);
+            lights[i].position = positions[i];
         }
 
-        // Set shader values
-        SetShaderValueV(sh, locLightPos, &positions[0], SHADER_UNIFORM_VEC3, NUM_ORBITS);
-        SetShaderValueV(sh, locLightCol, &lightColor[0], SHADER_UNIFORM_VEC3, NUM_ORBITS);
-        SetShaderValueV(sh, locLightInt, &lightIntensity[0], SHADER_UNIFORM_FLOAT, NUM_ORBITS);
+        // Set shader values - we need to set each struct member individually
+        for (int i = 0; i < NUM_ORBITS; i++) {
+            char uniformName[64];
+            
+            // Set position
+            sprintf(uniformName, "u_lights[%d].position", i);
+            int locPos = GetShaderLocation(sh, uniformName);
+            if (locPos != -1) SetShaderValue(sh, locPos, &lights[i].position, SHADER_UNIFORM_VEC3);
+            
+            // Set color
+            sprintf(uniformName, "u_lights[%d].color", i);
+            int locCol = GetShaderLocation(sh, uniformName);
+            if (locCol != -1) SetShaderValue(sh, locCol, &lights[i].color, SHADER_UNIFORM_VEC3);
+            
+            // Set intensity
+            sprintf(uniformName, "u_lights[%d].intensity", i);
+            int locInt = GetShaderLocation(sh, uniformName);
+            if (locInt != -1) SetShaderValue(sh, locInt, &lights[i].intensity, SHADER_UNIFORM_FLOAT);
+        }
 
         SetShaderValue(sh, locEyePos, &cam.position, SHADER_UNIFORM_VEC3);
         SetShaderValue(sh, locAmb, &ambientColor, SHADER_UNIFORM_VEC3);
