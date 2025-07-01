@@ -22,6 +22,14 @@ typedef struct {
     float range;
 } Light;
 
+typedef struct {
+    Vector3 position;
+    RenderTexture2D faces[6];  // 6 faces of the cubemap
+    TextureCubemap cubemap;
+    int resolution;
+    bool needsUpdate;
+} LightProbe;
+
 // Global variables
 Camera3D cam;
 Shader sh, shEmis, shSky, shHDR, shBlur, shFXAA;
@@ -32,6 +40,11 @@ TextureCubemap skyTex;
 Texture2D sunTex;
 RenderTexture2D hdr, bright, fxaaBuffer;
 RenderTexture2D pingpong[2];
+
+// Light probe variables
+LightProbe lightProbe;
+bool enableLightProbe = true;
+bool showLightProbe = false;
 
 // UI variables
 bool showLightDetails = false;
@@ -63,6 +76,10 @@ void UpdateShaderUniforms();
 void RenderScene(int currentWidth, int currentHeight);
 void DrawUI();
 void UpdateLights(float dt);
+void InitializeLightProbe(Vector3 position, int resolution);
+void UpdateLightProbe();
+void RenderSceneToLightProbe(Camera3D probeCamera, int faceIndex);
+void UnloadLightProbe();
 
 void InitializeWindow() {
     // Initialize window
@@ -277,6 +294,9 @@ void LoadResources() {
         lights[i].range = 4.0f; // Default range value
     }
     
+    // Initialize light probe
+    InitializeLightProbe(Vector3{0.0f, 2.0f, 0.0f}, 512);
+    
     // Clean up temporary images
     UnloadImage(px);
     UnloadImage(nx);
@@ -316,6 +336,8 @@ void UnloadResources() {
     UnloadRenderTexture(fxaaBuffer);
     UnloadRenderTexture(pingpong[0]);
     UnloadRenderTexture(pingpong[1]);
+    
+    UnloadLightProbe();
 }
 
 // Update all shader uniform values
@@ -364,6 +386,112 @@ void UpdateShaderUniforms() {
     SetShaderValueMatrix(shSky, locProjection, projection);
 }
 
+// Initialize light probe
+void InitializeLightProbe(Vector3 position, int resolution) {
+    lightProbe.position = position;
+    lightProbe.resolution = resolution;
+    lightProbe.needsUpdate = true;
+    
+    // Create render textures for each face
+    for (int i = 0; i < 6; i++) {
+        lightProbe.faces[i] = LoadRenderTexture(resolution, resolution);
+    }
+    
+    // Create initial cubemap texture
+    Image blankImage = GenImageColor(resolution, resolution, BLACK);
+    lightProbe.cubemap = LoadTextureCubemap(blankImage, CUBEMAP_LAYOUT_AUTO_DETECT);
+    UnloadImage(blankImage);
+}
+
+// Update light probe by rendering all 6 faces
+void UpdateLightProbe() {
+    if (!lightProbe.needsUpdate) return;
+    
+    // Define the 6 camera orientations for cubemap faces
+    // +X, -X, +Y, -Y, +Z, -Z
+    Vector3 targets[6] = {
+        Vector3Add(lightProbe.position, (Vector3){1.0f, 0.0f, 0.0f}),   // +X (Right)
+        Vector3Add(lightProbe.position, (Vector3){-1.0f, 0.0f, 0.0f}),  // -X (Left)
+        Vector3Add(lightProbe.position, (Vector3){0.0f, 1.0f, 0.0f}),   // +Y (Up)
+        Vector3Add(lightProbe.position, (Vector3){0.0f, -1.0f, 0.0f}),  // -Y (Down)
+        Vector3Add(lightProbe.position, (Vector3){0.0f, 0.0f, 1.0f}),   // +Z (Forward)
+        Vector3Add(lightProbe.position, (Vector3){0.0f, 0.0f, -1.0f})   // -Z (Back)
+    };
+    
+    Vector3 ups[6] = {
+        (Vector3){0.0f, -1.0f, 0.0f},  // +X
+        (Vector3){0.0f, -1.0f, 0.0f},  // -X
+        (Vector3){0.0f, 0.0f, 1.0f},   // +Y
+        (Vector3){0.0f, 0.0f, -1.0f},  // -Y
+        (Vector3){0.0f, -1.0f, 0.0f},  // +Z
+        (Vector3){0.0f, -1.0f, 0.0f}   // -Z
+    };
+    
+    // Save original camera
+    Camera3D originalCam = cam;
+    
+    // Create probe camera
+    Camera3D probeCamera = { 0 };
+    probeCamera.position = lightProbe.position;
+    probeCamera.fovy = 90.0f;  // 90 degrees for cubemap
+    probeCamera.projection = CAMERA_PERSPECTIVE;
+    
+    // Render each face
+    for (int i = 0; i < 6; i++) {
+        probeCamera.target = targets[i];
+        probeCamera.up = ups[i];
+        
+        RenderSceneToLightProbe(probeCamera, i);
+    }
+    
+    // Restore original camera
+    cam = originalCam;
+    
+    // Update cubemap from render textures
+    // This is a simplified approach - in practice you'd need to copy the rendered data
+    // to create a proper cubemap texture
+    lightProbe.needsUpdate = false;
+}
+
+// Render scene to a specific light probe face
+void RenderSceneToLightProbe(Camera3D probeCamera, int faceIndex) {
+    BeginTextureMode(lightProbe.faces[faceIndex]);
+        ClearBackground(BLACK);
+        BeginMode3D(probeCamera);
+            // Draw skybox
+            BeginShaderMode(shSky);
+                rlDisableBackfaceCulling();
+                rlDisableDepthMask();
+                DrawModel(skyModel, probeCamera.position, 1.0f, WHITE);
+                rlEnableBackfaceCulling();
+                rlEnableDepthMask();
+            EndShaderMode();
+
+            // Draw scene models (excluding light probe visualization)
+            BeginShaderMode(sh);
+                DrawModel(sponzaModel, Vector3{0.0f, 0.0f, 0.0f}, 1.0f, WHITE);
+            EndShaderMode();
+
+            // Draw light sources
+            BeginShaderMode(shEmis);
+                for (int i = 0; i < NUM_LIGHTS; i++) {
+                    SetShaderValue(shEmis, locEmis, &lights[i].color, SHADER_UNIFORM_VEC3);
+                    SetShaderValue(shEmis, locEmisInt, &lights[i].intensity, SHADER_UNIFORM_FLOAT);
+                    DrawModelEx(orbitModels[i], lights[i].position, {0,0,0}, 0, Vector3{0.2f, 0.2f, 0.2f}, WHITE);
+                }
+            EndShaderMode();
+        EndMode3D();
+    EndTextureMode();
+}
+
+// Unload light probe resources
+void UnloadLightProbe() {
+    for (int i = 0; i < 6; i++) {
+        UnloadRenderTexture(lightProbe.faces[i]);
+    }
+    UnloadTexture(lightProbe.cubemap);
+}
+
 // Update light positions and properties
 void UpdateLights(float dt) {
     // Here you can implement light movement or property changes over time
@@ -399,6 +527,11 @@ void RenderScene(int currentWidth, int currentHeight) {
                     DrawModelEx(orbitModels[i], lights[i].position, {0,0,0}, 0, Vector3{0.2f, 0.2f, 0.2f}, WHITE);
                 }
             EndShaderMode();
+            
+            // Draw light probe visualization (optional)
+            if (showLightProbe) {
+                DrawCubeWires(lightProbe.position, 0.5f, 0.5f, 0.5f, GREEN);
+            }
         EndMode3D();
     EndTextureMode();
 
@@ -478,6 +611,30 @@ void DrawUI() {
         
         ImGui::Separator();
         ImGui::Checkbox("Show Light Details", &showLightDetails);
+        
+        ImGui::Separator();
+        ImGui::Text("Light Probe:");
+        ImGui::Checkbox("Enable Light Probe", &enableLightProbe);
+        ImGui::Checkbox("Show Light Probe", &showLightProbe);
+        ImGui::DragFloat3("Light Probe Position", (float*)&lightProbe.position, 0.1f, -20.0f, 20.0f);
+        if (ImGui::Button("Update Light Probe")) {
+            lightProbe.needsUpdate = true;
+        }
+        
+        // Display light probe faces as small preview windows
+        if (showLightProbe) {
+            ImGui::Text("Light Probe Faces:");
+            ImVec2 imageSize(64, 64);
+            const char* faceNames[6] = {"Right (+X)", "Left (-X)", "Up (+Y)", "Down (-Y)", "Forward (+Z)", "Back (-Z)"};
+            
+            for (int i = 0; i < 6; i++) {
+                if (i > 0 && i % 3 != 0) ImGui::SameLine();
+                ImGui::BeginGroup();
+                ImGui::Text("%s", faceNames[i]);
+                ImGui::Image((ImTextureID)(intptr_t)lightProbe.faces[i].texture.id, imageSize, ImVec2(0, 1), ImVec2(1, 0));
+                ImGui::EndGroup();
+            }
+        }
     }
     ImGui::End();
 
@@ -557,6 +714,11 @@ int main(void) {
             
         // Update lights and scene elements
         UpdateLights(dt);
+        
+        // Update light probe if needed
+        if (enableLightProbe) {
+            UpdateLightProbe();
+        }
         
         // Update shader uniforms
         UpdateShaderUniforms();
