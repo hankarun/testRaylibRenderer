@@ -68,7 +68,7 @@ int main(void) {
     rlImGuiSetup(true);
 
     // Function to create render textures
-    auto createRenderTextures = [](int width, int height, RenderTexture2D& hdr, RenderTexture2D& bright, RenderTexture2D pingpong[2]) {
+    auto createRenderTextures = [](int width, int height, RenderTexture2D& hdr, RenderTexture2D& bright, RenderTexture2D pingpong[2], RenderTexture2D& fxaaBuffer) {
         // Clean up existing textures if they exist
         if (hdr.id != 0) {
             UnloadTexture(hdr.texture);
@@ -77,6 +77,10 @@ int main(void) {
         if (bright.id != 0) {
             UnloadTexture(bright.texture);
             UnloadRenderTexture(bright);
+        }
+        if (fxaaBuffer.id != 0) {
+            UnloadTexture(fxaaBuffer.texture);
+            UnloadRenderTexture(fxaaBuffer);
         }
         for (int i = 0; i < 2; i++) {
             if (pingpong[i].id != 0) {
@@ -135,6 +139,9 @@ int main(void) {
             rlBindFramebuffer(RL_DRAW_FRAMEBUFFER, 0);
             rlBindFramebuffer(RL_READ_FRAMEBUFFER, 0);
         }
+
+        // Create FXAA buffer
+        fxaaBuffer = LoadRenderTexture(width, height);
     };
 
     // Get current window dimensions
@@ -142,9 +149,9 @@ int main(void) {
     int currentHeight = GetScreenHeight();
 
     // Create render textures
-    RenderTexture2D hdr, bright;
+    RenderTexture2D hdr, bright, fxaaBuffer;
     RenderTexture2D pingpong[2];
-    createRenderTextures(currentWidth, currentHeight, hdr, bright, pingpong);
+    createRenderTextures(currentWidth, currentHeight, hdr, bright, pingpong, fxaaBuffer);
 
     // Initialize camera
     Camera3D cam = { 0 };
@@ -185,6 +192,10 @@ int main(void) {
     Shader shBlur = LoadShader(NULL, "resources/shaders/blur.fs");
     int locBlurHorizontal = GetShaderLocation(shBlur, "u_horizontal");
     shBlur.locs[SHADER_LOC_MAP_DIFFUSE] = GetShaderLocation(shBlur, "image");
+
+    Shader shFXAA = LoadShader(NULL, "resources/shaders/fxaa.fs");
+    int locFXAATexelStep = GetShaderLocation(shFXAA, "u_texelStep");
+    shFXAA.locs[SHADER_LOC_MAP_DIFFUSE] = GetShaderLocation(shFXAA, "texture0");
 
     // Load cubemap imagesf
     Image px = LoadImage("resources/textures/right.jpg");
@@ -279,6 +290,7 @@ int main(void) {
     float exposure = 1.0f;
     float gamma = 2.2f;
     float bloomThreshold = 1.0f;
+    bool enableFXAA = true;
 
     // Set objects rotation and scale
     float moonSpinAngle = 0.0f;
@@ -299,7 +311,7 @@ int main(void) {
         if (newWidth != currentWidth || newHeight != currentHeight) {
             currentWidth = newWidth;
             currentHeight = newHeight;
-            createRenderTextures(currentWidth, currentHeight, hdr, bright, pingpong);
+            createRenderTextures(currentWidth, currentHeight, hdr, bright, pingpong, fxaaBuffer);
         }
         /*
         if (updateCamera)
@@ -409,8 +421,7 @@ int main(void) {
             firstIteration = false;
         }
 
-        BeginDrawing();
-        
+        BeginTextureMode(fxaaBuffer);
             BeginShaderMode(shHDR);
                 SetShaderValueTexture(shHDR, shHDR.locs[SHADER_LOC_MAP_DIFFUSE], hdr.texture);
                 SetShaderValueTexture(shHDR, shHDR.locs[SHADER_LOC_MAP_EMISSION], pingpong[(horizontal + 1) % 2].texture);
@@ -418,6 +429,25 @@ int main(void) {
                 Vector2 hdrPosition = { 0, 0 };
                 DrawTextureRec(hdr.texture, hdrRect, hdrPosition, WHITE);
             EndShaderMode();
+        EndTextureMode();
+
+        BeginDrawing();
+            if (enableFXAA) {
+                Vector2 texelStep = { 1.0f / (float)currentWidth, 1.0f / (float)currentHeight };
+                SetShaderValue(shFXAA, locFXAATexelStep, &texelStep, SHADER_UNIFORM_VEC2);
+                
+                BeginShaderMode(shFXAA);
+                    SetShaderValueTexture(shFXAA, shFXAA.locs[SHADER_LOC_MAP_DIFFUSE], fxaaBuffer.texture);
+                    Rectangle fxaaRect = { 0, 0, (float)currentWidth, -(float)currentHeight };
+                    Vector2 fxaaPosition = { 0, 0 };
+                    DrawTextureRec(fxaaBuffer.texture, fxaaRect, fxaaPosition, WHITE);
+                EndShaderMode();
+            } else {
+                // Render without FXAA - directly draw the HDR buffer
+                Rectangle directRect = { 0, 0, (float)currentWidth, -(float)currentHeight };
+                Vector2 directPosition = { 0, 0 };
+                DrawTextureRec(fxaaBuffer.texture, directRect, directPosition, WHITE);
+            }
 
             rlImGuiBegin();
 
@@ -427,6 +457,7 @@ int main(void) {
                 ImGui::DragFloat3("Ambient Color", (float*)&ambientColor, 0.01f, 0.0f, 2.0f);
                 ImGui::DragFloat3("Specular Color", (float*)&specularColor, 0.01f, 0.0f, 2.0f);
                 ImGui::DragFloat("Gamma", &gamma, 0.01f, 1.0f, 3.0f);
+                ImGui::Checkbox("Enable FXAA", &enableFXAA);
             }
 
             ImGui::End();
@@ -441,13 +472,15 @@ int main(void) {
     UnloadShader(shSky);
     UnloadShader(shHDR);
     UnloadShader(shBlur);
+    UnloadShader(shFXAA);
     for (int i = 0; i < NUM_ORBITS; i++) UnloadModel(orbitModels[i]);
     //UnloadModel(moonModel);
     //UnloadTexture(moonTex);
-    //UnloadTexture(moonNormalTex);
+    //UnloadTexture( moonNormalTex);
     UnloadTexture(sunTex);
     UnloadTexture(hdr.texture);
     UnloadTexture(bright.texture);
+    UnloadTexture(fxaaBuffer.texture);
     UnloadTexture(pingpong[0].texture);
     UnloadTexture(pingpong[1].texture);
     UnloadImage(px);
