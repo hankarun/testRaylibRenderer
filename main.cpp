@@ -235,7 +235,8 @@ void LoadResources() {
     // Load models
     sponzaModel = LoadModel("resources/objects/sponza.glb");
     for (int i = 0; i < sponzaModel.materialCount; i++) {
-        sponzaModel.materials[i].shader = sh;        
+        sponzaModel.materials[i].shader = sh;       
+        GenTextureMipmaps(&sponzaModel.materials[i].maps[MATERIAL_MAP_DIFFUSE].texture); 
     }
 
     sunTex = LoadTexture("resources/textures/sun.jpg"); 
