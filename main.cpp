@@ -9,7 +9,7 @@
 
 #define W 1000
 #define H 650
-#define NUM_ORBITS 8
+#define NUM_LIGHTS 8
 
 typedef struct  {
     Vector3 color;
@@ -21,50 +21,6 @@ typedef struct {
     float intensity;
     float range;
 } Light;
-
-Orbit orbits[NUM_ORBITS] = {
-    //{ {1.0f, 0.0f, 0.0f} }, // red
-    //{ {0.0f, 1.0f, 0.0f} }, // green
-    //{ {0.0f, 0.0f, 1.0f} }, // blue
-    { {0.9921f, 0.9843f, 0.8274f} }, // white
-    { {0.9921f, 0.9843f, 0.8274f} },
-    { {0.9921f, 0.9843f, 0.8274f} },
-    { {0.9921f, 0.9843f, 0.8274f} }
-    //{ {1.0f, 1.0f, 0.0f} }, // yellow
-    //{ {1.0f, 0.0f, 1.0f} }, // magenta
-    //{ {0.0f, 1.0f, 1.0f} }, // cyan
-    //{ {1.0f, 0.4f, 0.0f} }  // orange
-};
-
-Vector3 starts[NUM_ORBITS] = {
-    {8.3f, 1.7f, 0.0f},
-    {4.3f, 1.7f, 0.0f},
-    {0.3f, 1.7f, 0.0f},
-    {-4.3f, 1.7f, 0.0f}
-    /*
-    {-5.4f, 3.0f, 0.0f}, 
-    {6.3f, 3.0f, 0.0f}, 
-    {5.1f, 3.0f, 0.0f}, 
-    {3.9f, 3.0f, 0.0f}, 
-    {1.5f, 3.0f, 0.0f}, 
-    {-1.5f, 3.0f, 0.0f}, 
-    {-3.9f, 3.0f, 0.0f}, 
-    {-7.4f, 3.0f, 0.0f}
-    */
-};
-
-Vector3 axes[NUM_ORBITS] = {
-    /*
-    {0.7071, 0.7071, 0}, 
-    {1, 0, 0}, 
-    {-0.7071, 0.7071, 0}, 
-    {0, 0, 1}, 
-    {0, 0, 1},  
-    {-0.7071, 0.7071, 0}, 
-    {1, 0, 0},
-    {0.7071, 0.7071, 0}, 
-    */
-};
 
 int main(void) {
     // Initialization
@@ -267,21 +223,26 @@ int main(void) {
     skyModel.materials[0].shader = shSky;
     skyModel.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = skyTex;
     
-    Model orbitModels[NUM_ORBITS];
-    Light lights[NUM_ORBITS];
-    Vector3 emissiveColor[NUM_ORBITS];
-    float emissiveIntensity[NUM_ORBITS];
+    Model orbitModels[NUM_LIGHTS];
+    Light lights[NUM_LIGHTS];
     
+    Vector3 starts[NUM_LIGHTS] = {
+    {8.3f, 1.7f, 0.0f},
+    {4.3f, 1.7f, 0.0f},
+    {0.3f, 1.7f, 0.0f},
+    {-4.3f, 1.7f, 0.0f}
+    };
     // Create orbit models
-    for (int i = 0; i < NUM_ORBITS; i++) {
+    for (int i = 0; i < NUM_LIGHTS; i++) {
         Mesh mesh = GenMeshSphere(0.2f, 64, 64);
         orbitModels[i] = LoadModelFromMesh(mesh);
 
         orbitModels[i].materials[0].shader = shEmis;
         orbitModels[i].materials[0].maps[MATERIAL_MAP_EMISSION].texture = sunTex;
 
-        lights[i].color = emissiveColor[i] = Vector3Scale(orbits[i].color, sunMask);
-        lights[i].intensity = emissiveIntensity[i] = 1.0f;
+        lights[i].color = { 1.0f, 1.0f, 1.0f }; // Default color
+        lights[i].position = starts[i];
+        lights[i].intensity = 1.0f; // Default intensity
         lights[i].range = 4.0f; // Default range value
     }
 
@@ -343,14 +304,8 @@ int main(void) {
         moonSpinAngle += moonSpinSpeed * dt;
         orbitSpinAngle += orbitSpinSpeed * dt;
 
-        Vector3 positions[NUM_ORBITS];
-        for (int i = 0; i < NUM_ORBITS; i++) {
-            positions[i] = Vector3RotateByAxisAngle(starts[i], axes[i], orbitSpinAngle);
-            lights[i].position = positions[i];
-        }
-
         // Set shader values - we need to set each struct member individually
-        for (int i = 0; i < NUM_ORBITS; i++) {
+        for (int i = 0; i < NUM_LIGHTS; i++) {
             char uniformName[64];
             
             // Set position
@@ -384,10 +339,6 @@ int main(void) {
 
         SetShaderValue(shSky, locRotView, &view, SHADER_LOC_MATRIX_VIEW);
 
-        for (int i = 0; i < NUM_ORBITS; i++) {
-            SetShaderValue(shEmis, locEmis, &emissiveColor[i], SHADER_UNIFORM_VEC3);
-            SetShaderValue(shEmis, locEmisInt, &emissiveIntensity[i], SHADER_UNIFORM_FLOAT);
-        }
 
         //BeginDrawing();
         BeginTextureMode(hdr);
@@ -411,10 +362,10 @@ int main(void) {
                 EndShaderMode();
 
                 BeginShaderMode(shEmis);
-                    for (int i = 0; i < NUM_ORBITS; i++) {
-                        SetShaderValue(shEmis, locEmis, &emissiveColor[i], SHADER_UNIFORM_VEC3);
-                        SetShaderValue(shEmis, locEmisInt, &emissiveIntensity[i], SHADER_UNIFORM_FLOAT);
-                        DrawModelEx(orbitModels[i], positions[i], axes[i], orbitSpinAngle, orbitScale, WHITE);
+                    for (int i = 0; i < NUM_LIGHTS; i++) {
+                        SetShaderValue(shEmis, locEmis, &lights[i].color, SHADER_UNIFORM_VEC3);
+                        SetShaderValue(shEmis, locEmisInt, &lights[i].intensity, SHADER_UNIFORM_FLOAT);
+                        DrawModelEx(orbitModels[i], lights[i].position, {0,0,0}, 0, Vector3{0.2f, 0.2f, 0.2f}, WHITE);
                     }
                 EndShaderMode();
 
@@ -499,7 +450,7 @@ int main(void) {
                     // Light selection list
                     ImGui::Text("Lights:");
                     if (ImGui::BeginListBox("##LightList", ImVec2(-1, 100))) {
-                        for (int i = 0; i < NUM_ORBITS; i++) {
+                        for (int i = 0; i < NUM_LIGHTS; i++) {
                             char lightName[32];
                             sprintf(lightName, "Light %d", i);
                             
@@ -514,32 +465,21 @@ int main(void) {
                     ImGui::Separator();
                     
                     // Selected light properties
-                    if (selectedLight >= 0 && selectedLight < NUM_ORBITS) {
+                    if (selectedLight >= 0 && selectedLight < NUM_LIGHTS) {
                         ImGui::Text("Light %d Properties:", selectedLight);
-                        
-                        // Position (read-only since it's calculated from orbit)
-                        ImGui::Text("Position: %.2f, %.2f, %.2f", 
-                                  lights[selectedLight].position.x,
-                                  lights[selectedLight].position.y, 
-                                  lights[selectedLight].position.z);
                         
                         // Color
                         if (ImGui::ColorEdit3("Color", (float*)&lights[selectedLight].color)) {
-                            // Update both light color and emissive color
-                            emissiveColor[selectedLight] = lights[selectedLight].color;
-                            orbits[selectedLight].color = lights[selectedLight].color;
                         }
                         
                         // Intensity
                         if (ImGui::DragFloat("Intensity", &lights[selectedLight].intensity, 0.1f, 0.0f, 10.0f)) {
-                            emissiveIntensity[selectedLight] = lights[selectedLight].intensity;
                         }
                         
                         // Range
                         ImGui::DragFloat("Range", &lights[selectedLight].range, 0.5f, 0.1f, 50.0f, "%.1f");
-                        
-                        // Orbit start position
-                        if (ImGui::DragFloat3("Orbit Start", (float*)&starts[selectedLight], 0.1f, -20.0f, 20.0f)) {
+
+                        if (ImGui::DragFloat3("Orbit Start", (float*)&lights[selectedLight].position.x, 0.1f, -20.0f, 20.0f)) {
                             // Position will be recalculated in the main loop
                         }
                     }
@@ -558,7 +498,7 @@ int main(void) {
     UnloadShader(shHDR);
     UnloadShader(shBlur);
     UnloadShader(shFXAA);
-    for (int i = 0; i < NUM_ORBITS; i++) UnloadModel(orbitModels[i]);
+    for (int i = 0; i < NUM_LIGHTS; i++) UnloadModel(orbitModels[i]);
     //UnloadModel(moonModel);
     //UnloadTexture(moonTex);
     //UnloadTexture( moonNormalTex);
